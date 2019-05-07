@@ -5,9 +5,9 @@ and was for personal use only. But it still works after many years! I wouldn't r
 
 # Try out the demo:
 
-![](gh/demo.gif)
-
 https://making.codes/app/ghub/lframedemo/
+
+![](gh/demo.gif)
 
 
 # What it does
