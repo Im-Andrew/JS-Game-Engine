@@ -4,6 +4,9 @@ A small JavaScript game engine. Please don't waste your time trying to use this,
 and was for personal use only.
 
 # Try out the demo:
+
+![](gh/demo.gif)
+
 https://making.codes/app/ghub/lframedemo/
 
 
