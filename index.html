@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+        <!--- LEMON FRAME  --->
+        <script type='text/javascript' src="lemonFrame/inputHandle.js"></script>
+        <script type='text/javascript' src="lemonFrame/depthManager.js"></script>
+        <script type='text/javascript' src="lemonFrame/mediaManager.js"></script>
+        <script type='text/javascript' src="lemonFrame/objectBuilder.js"></script>
+        <script type='text/javascript' src="lemonFrame/screenLayerSystem.js"></script>
+        <script type='text/javascript' src="lemonFrame/gameController.js"></script>
+
+        <!-- DEMO CODE --->
+        <script type='text/javascript' src="demo/sat.js"></script>
+        <script type='text/javascript' src="demo/mapHandler.js"></script>
+          <!-- My Objects -->
+          <script type='text/javascript' src="demo/myObjects.js"></script>
+          <script type='text/javascript' src="demo/playerObj.js"></script>
+        <style>
+          html,body{
+            position: relative;
+            min-width:100%;
+            min-height:100%;
+            padding:0;
+            margin:0;
+              background-color: black;
+          }
+          #gameCanvas{
+              position: absolute;
+              cursor: none;
+          }
+          #gitHub{
+            position:absolute;
+            display: inline-block;
+            text-decoration: none;
+            padding: 3px;
+            z-index: 1000;
+            font-weight: bolder;
+            font-family: monospace;
+            padding-left: 5%;
+            padding-right: 2.5%;
+            background-color: aqua;
+            font-size: 20px;
+            color:black;
+          }
+        </style>
+    </head>
+
+    <body>
+      <a href='https://github.com/Im-Andrew/JS-Game-Engine'><div id=gitHub>Source</div> </a>
+      <canvas id="gameCanvas" oncontextmenu="return false">Your Bowser Isn't Good Enough For Canavas.</canvas>
+    </body>
+
+    <script>
+      //ONLINE SNIPPETS
+      Number.prototype.clamp = function(min, max) {
+          return Math.min(Math.max(this, min), max);
+      };
+      function loadJSON(path, success, error){
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      if (success)
+                          success(JSON.parse(xhr.responseText));
+                  } else {
+                      if (error)
+                          error(xhr);
+                  }
+              }
+          };
+          xhr.open("GET", path, true);
+          xhr.send();
+      }
+      function withKeys(obj, process){
+        for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+             var val = obj[key];
+             process(val, key);
+          }
+        }
+      }
+
+
+      // Make the canvas and set dimensions
+      var canv = canvas = document.getElementById("gameCanvas");
+      var ctx = canv.getContext('2d');
+      var vCells = 17, hCells = 17, cellDim = 32;
+      canv.width = hCells*cellDim;
+      canv.height = vCells*cellDim;
+      function centerCanvas(){
+        var bod = window;
+        var dim = Math.min(window.innerWidth, window.innerHeight)*.95;
+        canvas.style['width'] = dim +'px';
+        canvas.style['height'] = dim+'px';
+        canvas.style['left'] = (bod.innerWidth - canv.offsetWidth)/2 +'px';
+        canvas.style['top'] =  (bod.innerHeight- canv.offsetHeight)/2 +'px';
+      }
+      centerCanvas();
+
+      var view = {
+        viewX:0,
+        viewY:0,
+        render: function(){
+          ctx.setTransform(1,0,0,1,0,0);//reset the transform matrix because it is cumulative
+          flow.cleanCanvas();
+          ctx.translate(view.viewX, view.viewY);
+        },
+        set: function(x,y){
+          view.viewX = x;
+          view.viewY = y;
+        }
+      };
+
+      // Start the game and manage it
+      window.onresize=centerCanvas;
+
+
+
+      window.onload = function(){
+        // Define resources to be loaded by the media manager "master"
+        var images = {
+            'block':'block.png', 'playerStat':'playerStatic_strip3.png',
+            'playerWalk':'playerWalk_strip6.png', 'blockBack':'blockBack.png', 'blockFront':'blockFront.png',
+            'spikeLeft':'spikeLeft.png', 'spikeUp':'spikeUp.png'
+            };
+        var sounds = { 'playerJump':'playerJump.ogg', 'playerHurt':'playerHurt.ogg'};
+        media.sourceManager.images = images;
+        media.sourceManager.sounds = sounds;
+        media.sourceManager.loadAll('demo/images/', 'demo/sounds/');
+      }
+
+      // When all resources have been loaded use "done" and call flow.init(ctx);
+      media.sourceManager.done = function(err){
+        if( err ) return console.error(err);
+        console.log("GAME START");
+        flow.init(ctx, view.render);
+        // Load the map when resources have been loaded
+        loadMap();
+      };
+    </script>
+</html>
