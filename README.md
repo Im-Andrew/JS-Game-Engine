@@ -1,7 +1,7 @@
 # LemonFrame
 
 A small JavaScript game engine. Please don't waste your time trying to use this, it's old 
-and was for personal use only.
+and was for personal use only. But it still works after many years! I wouldn't recommend trying to revive this though.
 
 # Try out the demo:
 
