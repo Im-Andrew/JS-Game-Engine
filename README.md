@@ -75,3 +75,8 @@ If I ever find the source for that LemonFrame based MMO, I would probably transf
 If you notice in the levelmap.json, it's a very large file. This was not done by hand it was not made in
 any publically available program. I actually had made an editor which was designed around the way the
 game works. Notice how it's segmented into a bunch of sections? That's because the editor would show you square sections which made making rooms with transitions a straightforward task to do.
+
+
+# [Contact me](https://www.making.codes/#contact-me)
+I am available for hire. You can quickly get in contact with me here:
+[making.codes/#contact-me](https://www.making.codes/#contact-me)
